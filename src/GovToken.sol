@@ -6,14 +6,16 @@ import {ERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/draft-
 import {ERC20Votes} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
 contract GovToken is ERC20, ERC20Permit, ERC20Votes {
-    constructor(address mintingToAddress, uint256 amount) ERC20("MyToken", "MTK") ERC20Permit("MyToken") {
-        _mint(mintingToAddress, amount);
-    }
+    constructor() ERC20("MyToken", "MTK") ERC20Permit("MyToken") {}
 
     // The following functions are overrides required by Solidity.
 
     function _afterTokenTransfer(address from, address to, uint256 amount) internal override(ERC20, ERC20Votes) {
         super._afterTokenTransfer(from, to, amount);
+    }
+
+    function mint(address to, uint256 amount) public {
+        _mint(to, amount);
     }
 
     function _mint(address to, uint256 amount) internal override(ERC20, ERC20Votes) {
